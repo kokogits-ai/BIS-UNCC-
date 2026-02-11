@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { scaleIn } from '../lib/animations';
+import { scaleIn } from '../lib/animations.ts';
 
 interface GlassCardProps {
   children: React.ReactNode;

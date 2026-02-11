@@ -1,16 +1,17 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Verify from './pages/Verify';
-import Confirmation from './pages/Confirmation';
-import { Page, VerificationFormData } from './types';
+import Navbar from './components/Navbar.tsx';
+import Footer from './components/Footer.tsx';
+import FAQModal from './components/FAQModal.tsx';
+import Home from './pages/Home.tsx';
+import Verify from './pages/Verify.tsx';
+import Confirmation from './pages/Confirmation.tsx';
+import { Page, VerificationFormData } from './types.ts';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = React.useState<Page>(Page.HOME);
-  const [verifiedUser, setVerifiedUser] = React.useState<string>('');
+  const [currentPage, setCurrentPage] = useState<Page>(Page.HOME);
+  const [verifiedUser, setVerifiedUser] = useState<string>('');
+  const [isFAQOpen, setIsFAQOpen] = useState<boolean>(false);
 
   const handleNavigate = (page: string) => {
     setCurrentPage(page as Page);
@@ -24,10 +25,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen gradient-bg flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar 
         currentPage={currentPage} 
         onNavigate={handleNavigate} 
+        onOpenFAQ={() => setIsFAQOpen(true)}
       />
 
       <main className="flex-grow">
@@ -44,7 +46,12 @@ const App: React.FC = () => {
         </AnimatePresence>
       </main>
 
-      <Footer />
+      <Footer onOpenFAQ={() => setIsFAQOpen(true)} />
+
+      <FAQModal 
+        isOpen={isFAQOpen} 
+        onClose={() => setIsFAQOpen(false)} 
+      />
     </div>
   );
 };

